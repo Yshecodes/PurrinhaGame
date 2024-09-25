@@ -1,0 +1,17 @@
+.vscode
+build/
+bin/
+
+.DS_Store
+
+*.class
+
+.gradle
+
+gradle/
+gradlew
+gradlew.bat
+
+gradle-server/src/main/resources/*.jar
+
+.tool-versions
