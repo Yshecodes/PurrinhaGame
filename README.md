@@ -26,6 +26,9 @@ Rounds restart when no one guessed right and until there is a game winner.
 Technologies Used:
 ・Java
 ・JavaFX
+・SceneBuilder
+・VS Code
+・Git
 
 
 This project is currently under construction.
