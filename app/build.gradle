@@ -13,5 +13,5 @@ javafx {
 }
 
 application {
-    mainClass = 'org.openjfx.Main'
+    mainClass = 'org.jokana.Main'
 }
