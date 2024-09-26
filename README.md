@@ -1,8 +1,8 @@
 # sticks_guess_game
 
-Stick Guess Game(
+Stick Guess Game
 
-Welcome! This project is being developed in colaboration with https://github.com/AlineSug
+Welcome! This project is being developed in collaboration with https://github.com/AlineSug
 
 This is a simple game played at many bars in Brazil.
 
