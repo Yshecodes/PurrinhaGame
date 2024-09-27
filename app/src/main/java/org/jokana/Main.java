@@ -14,7 +14,7 @@ public class Main extends Application {
         Parent root = loader.load();
 
         primaryStage.setTitle("Guessing Game");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
     }
 

@@ -58,39 +58,42 @@ public class Game {
 
     public void setPlayerThr(Player p){
         if (isInstanceOfHuman(p)) {
-            ctrl.updateGameLog("\nAlright, " + p.name + "! How many are you hiding?");
+            ctrl.updateGameLog("Alright, " + p.name + "! How many are you hiding?");
             ctrl.getThrInput();
         } else {
             p.setThr();
-            ctrl.updateGameLog(p.name + " is set!");
+            ctrl.updatePlayersLogs(p);
         }
     }
 
     public void setPlayerGuess(Player p) {
         if (isInstanceOfHuman(p)){
-            ctrl.statusLabel.setText("Your turn "+ p.name + "!" + "What is your guess? ");
+            ctrl.statusLabel.setText("Your turn "+ p.name + "!" + " What is your guess? ");
             ctrl.getGuessInput();
         } else {
             p.setGuess(existingGuesses);
             existingGuesses.add(p.guess);
-            ctrl.updateGameLog(p.name +" guessed " + p.guess +".");
+            ctrl.updatePGuessLogs(p);
             turnControl++;
             rotateTurn(players);
         }
     }
 
     public void checkForWinner() {
-        ctrl.statusLabel.setText("I am checking the winner!");
         totalOfSticks = calculateTotalSticks();
+        ctrl.totalSticks.setText("Total sticks: " + totalOfSticks);
         boolean winnerFound = false;
         for (Player p : players) {
             if (p.guess == totalOfSticks) {
-                ctrl.resultLabel.setText(p.name + " was spot on!");
+                ctrl.popLabel.setText(p.name + " was spot on!");
                 p.updateHand();
                 p.score++;
+                ctrl.revealPlayersThr(players);
+                ctrl.showPopup();
                 winnerFound = true;
                 if (p.score == 3) {
-                    ctrl.statusLabel.setText(p.name + " WON!");
+                    ctrl.popLabel.setText(p.name + " WON!");
+                    ctrl.showPopup();
                     getGameState();
                     return;
                 }
@@ -98,7 +101,9 @@ public class Game {
             }
         }
         if(!winnerFound){
-            ctrl.resultLabel.setText("No one got it right!");
+            ctrl.popLabel.setText("No one got it right!");
+            ctrl.revealPlayersThr(players);
+            ctrl.showPopup();
         }
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         nextRound();
@@ -122,7 +127,7 @@ public class Game {
     }
 
     public void nextRound() {
-        ctrl.resultDetails.setText("I am rotating the round.");
+        ctrl.gameLog.clear();
         existingGuesses.clear();
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         turnControl = 0;
