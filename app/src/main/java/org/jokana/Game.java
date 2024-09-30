@@ -58,7 +58,7 @@ public class Game {
 
     public void setPlayerThr(Player p){
         if (isInstanceOfHuman(p)) {
-            ctrl.updateGameLog("Alright, " + p.name + "! How many are you hiding?");
+            ctrl.statusLabel.setText("Alright, " + p.name + "! How many are you hiding?");
             ctrl.getThrInput();
         } else {
             p.setThr();
@@ -71,7 +71,7 @@ public class Game {
             ctrl.statusLabel.setText("Your turn "+ p.name + "!" + " What is your guess? ");
             ctrl.getGuessInput();
         } else {
-            p.setGuess(existingGuesses);
+            p.setGuess();
             existingGuesses.add(p.guess);
             ctrl.updatePGuessLogs(p);
             turnControl++;
@@ -80,6 +80,8 @@ public class Game {
     }
 
     public void checkForWinner() {
+        ctrl.statusLabel.setText("PURRINHA");
+        ctrl.resultDetails.setText("");
         totalOfSticks = calculateTotalSticks();
         ctrl.totalSticks.setText("Total sticks: " + totalOfSticks);
         boolean winnerFound = false;
@@ -94,7 +96,6 @@ public class Game {
                 if (p.score == 3) {
                     ctrl.popLabel.setText(p.name + " WON!");
                     ctrl.showPopup();
-                    getGameState();
                     return;
                 }
                 break;
@@ -117,6 +118,7 @@ public class Game {
         return total;
     }
 
+    /* 
     public String getGameState() {
         StringBuilder state = new StringBuilder();
         for (Player p : players) {
@@ -124,7 +126,7 @@ public class Game {
         p.name, p.hand, p.thr, p.guess, p.score));
         }
         return state.toString();
-    }
+    }*/
 
     public void nextRound() {
         ctrl.gameLog.clear();

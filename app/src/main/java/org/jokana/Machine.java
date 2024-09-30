@@ -1,6 +1,5 @@
 package org.jokana;
 
-import java.util.List;
 import java.util.Random;
 
 public class Machine extends Player {
@@ -17,7 +16,7 @@ public class Machine extends Player {
 		return this.thr;
 	}
 
-	public int setGuess(List<Integer> existingGuesses){
+	public int setGuess(){
 		Player human = game.players.stream().filter(p -> p instanceof Human).findFirst().orElse(null);
 		Player rivalMachine = game.players.stream().filter(p -> p instanceof Machine && p != this).findFirst().orElse(null);
 		int ownHand = this.thr;
@@ -25,7 +24,7 @@ public class Machine extends Player {
 			int humanHand = rd.nextInt(human.hand.size());
 			int machineHand = rd.nextInt(rivalMachine.hand.size());
 			this.guess = humanHand + machineHand + ownHand;
-		} while (existingGuesses.contains(this.guess));
+		} while (game.existingGuesses.contains(this.guess));
 		return this.guess;
 	}
 }

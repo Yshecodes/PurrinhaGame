@@ -1,7 +1,5 @@
 package org.jokana;
 
-import java.util.List;
-
 public class Human extends Player {
 		GuessingGameController ctrl;
 
@@ -20,17 +18,8 @@ public class Human extends Player {
 			return this.thr;
 		}
 
-
-		public int setGuess(List<Integer> existingGuesses){
-			do {
-				this.guess = ctrl.guessValue;
-
-				if(existingGuesses.contains(this.guess)){
-					ctrl.statusLabel.setText("Guess " + ctrl.guessValue + " is taken. Guess again!");
-				}
-
-			} while (existingGuesses.contains(this.guess));
-			existingGuesses.add(this.guess);
+		public int setGuess(){
+			this.guess = ctrl.guessValue;
 			return this.guess;
 		}
 }

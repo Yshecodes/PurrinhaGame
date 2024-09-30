@@ -25,7 +25,7 @@ public abstract class Player {
 	}
 
 	public abstract int setThr();
-	public abstract int setGuess(List<Integer> existingGuesses);
+	public abstract int setGuess();
 
 	public int getScore() { return score; }
 	public void setScore(int score) { this.score = score; }

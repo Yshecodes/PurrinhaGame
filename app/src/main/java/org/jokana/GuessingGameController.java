@@ -29,29 +29,50 @@ public class GuessingGameController {
     public String humanName;
     public int guessValue;
     public int throwValue;
+    public String thrInputStr;
+    public String guessInputStr;
 
     @FXML
     public void initialize() {
         game = new Game(this);
         game.rtnHumanPlayer();
+
+        throwInput.setEditable(false);
+        thrBtn.setDisable(true);
+
+        throwInput.textProperty().addListener((observable, oldValue, newValue) -> {thrBtn.setDisable(newValue.trim().isEmpty());
+        });
+
+        throwInput.setTextFormatter(new TextFormatter<>(change -> (change.getControlNewText().matches("\\d*")) ? change:null));
+
+        guessInput.setEditable(false);
+        guessBtn.setDisable(true);
+
+        guessInput.textProperty().addListener((observable, oldValue, newValue) -> {guessBtn.setDisable(newValue.trim().isEmpty());
+        });
+
+        guessInput.setTextFormatter(new TextFormatter<>(change -> (change.getControlNewText().matches("\\d*")) ? change:null));
     }
 
     @FXML
-    public void startGame() throws InterruptedException {
+    public void startGame() {
         String playerName = playerNameInput.getText();
 
         if (!playerName.isEmpty()) {
             humanPlayer = game.rtnHumanPlayer();
             humanPlayer.setName(playerName);
-            statusLabel.setText("Awesome, " + playerName + "! Time to test your intuition!");
+            //statusLabel.setText("Awesome, " + playerName + "! Time to test your intuition!");
 
             for(int i = 0; i< game.players.size(); i++){
                 player1.setText(game.players.get(i).name);
             }
             
-            gameLog.appendText("Game started with players: " + playerName + ", " + game.players.get(1).name + ", and " + game.players.get(2).name + ".\nGood Luck!");
+            gameLog.appendText("Game started with players: " + playerName + ", " + game.players.get(1).name + ", and " + game.players.get(2).name + ".\nGood Luck!\n");
 
             updatePlayersNames();
+
+            throwInput.setEditable(true);
+            thrBtn.setDisable(false);
 
             game.setPlayerThr(humanPlayer);
         } else {
@@ -107,8 +128,10 @@ public class GuessingGameController {
     @FXML
     public void closePopup(){
         popup.setVisible(false);
+        throwInput.setEditable(true);
+        thrBtn.setDisable(true);
+        resultDetails.setText("");
         resetLogs();
-        
     }
 
     @FXML
@@ -121,31 +144,71 @@ public class GuessingGameController {
 
     @FXML
     public void getThrInput(){
-            throwInput.setEditable(true);
-            thrBtn.setDisable(false);
-            throwValue = Integer.parseInt(throwInput.getText());
+        if(!throwInput.isEditable()){
+            return;
+        }
+
+        thrInputStr = throwInput.getText().trim();
+
+        if(thrInputStr.isEmpty()){
+            return;
+        }
+
+            throwValue = Integer.parseInt(thrInputStr);
+
+            if (throwValue > humanPlayer.hand.size() - 1 || throwValue < 0) {
+                gameLog.appendText("You can only hide the amount of sticks you have or 0.\n");
+                throwInput.clear();
+                return;         	
+            }
+
             humanPlayer.setThr();
             player1Log.appendText("You threw: " + throwValue + "\n");
+            
+            
+            throwInput.setEditable(false);
+            thrBtn.setDisable(true);
+            
+            guessInput.setEditable(true);
+            guessBtn.setDisable(false);
+            
             throwInput.clear();
-            gameLog.clear();
 
             game.setPlayerThr(game.players.get(1));
             game.setPlayerThr(game.players.get(2));
-
             resultDetails.setText(game.players.get(game.currentPlayerIndex).name + " starts guessing this time.");
-
             game.setPlayerGuess(game.players.get(game.currentPlayerIndex));
-    }
+        }
 
     @FXML
     public void getGuessInput() {
-            guessInput.setEditable(true);
-            guessBtn.setDisable(false);
-            guessValue = Integer.parseInt(guessInput.getText());
-            humanPlayer.setGuess(game.existingGuesses);
+            if (!guessInput.isEditable()){
+                return;
+            }
+
+            guessInputStr = guessInput.getText().trim();
+
+            if(guessInputStr.isEmpty()){
+                return;
+            }
+
+            guessValue = Integer.parseInt(guessInputStr);
+
+            if (game.existingGuesses.contains(guessValue)) {
+                gameLog.appendText("Guess " + guessValue + " is taken. Guess again!");
+                guessInput.clear();
+                return;
+            }
+
+            humanPlayer.setGuess();
+            game.existingGuesses.add(humanPlayer.guess);
+
             player1Log.appendText("Your guess: " + guessValue + "\n");
             guessInput.clear();
             game.turnControl++;
+
+            guessInput.setEditable(false);
+            guessBtn.setDisable(true);
 
             game.rotateTurn(game.players);
     }
@@ -158,7 +221,6 @@ public class GuessingGameController {
     @FXML
     public void startNewGame() {
         initialize();
-        gameLog.clear();
         statusLabel.setText("New game started. Enter your name to begin.");
         playerNameInput.clear();
         throwInput.clear();
