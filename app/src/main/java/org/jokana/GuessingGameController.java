@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 
 public class GuessingGameController {
+    @FXML public Button startBtn;
     @FXML public Button thrBtn;
     @FXML public Button guessBtn;
     @FXML public Label statusLabel;
@@ -92,8 +93,15 @@ public class GuessingGameController {
     public void revealPlayersThr(List<Player> players){
         TextArea[] playersLogArr = {player1Log, player2Log, player3Log};
         for (int i = 0; i < game.players.size(); i++){
-            playersLogArr[i].appendText(game.players.get(i).name + " threw: " + game.players.get(i).thr);
+            playersLogArr[i].appendText(game.players.get(i).name + " threw: " + game.players.get(i).thr + "\n");
         }
+    }
+
+    @FXML
+    public void droppedASticks(Player p){
+        TextArea[] playersLogArr = {player1Log, player2Log, player3Log};
+        int index = game.players.indexOf(p);
+        playersLogArr[index].appendText(p.name + " dropped a stick!");
     }
 
     @FXML
@@ -119,7 +127,6 @@ public class GuessingGameController {
     }
 
 
-
     @FXML
     public void showPopup(){
         popup.setVisible(true);
@@ -132,6 +139,7 @@ public class GuessingGameController {
         thrBtn.setDisable(true);
         resultDetails.setText("");
         resetLogs();
+        gameLog.clear();
     }
 
     @FXML
@@ -144,6 +152,7 @@ public class GuessingGameController {
 
     @FXML
     public void getThrInput(){
+        startBtn.setDisable(true);
         if(!throwInput.isEditable()){
             return;
         }
@@ -155,9 +164,10 @@ public class GuessingGameController {
         }
 
             throwValue = Integer.parseInt(thrInputStr);
-
-            if (throwValue > humanPlayer.hand.size() - 1 || throwValue < 0) {
-                gameLog.appendText("You can only hide the amount of sticks you have or 0.\n");
+            
+            int remainingSticks = humanPlayer.hand.size() - 1;
+            if (throwValue > remainingSticks || throwValue < 0) {
+                gameLog.appendText("You have " + remainingSticks + (remainingSticks != 1 ? " sticks" : " stick") + " left.\nThrow a number from 0 to " + remainingSticks + ".\n");
                 throwInput.clear();
                 return;         	
             }
@@ -214,8 +224,10 @@ public class GuessingGameController {
     }
 
     @FXML
-    public void updateGameLog(String message) {
-        gameLog.appendText(message);
+    public void updateGameLog(List<Player> players) {
+        for(Player p : players){
+        gameLog.appendText(p.name + "'s final score: " + p.score + "\n");
+        }
     }
 
     @FXML
@@ -227,5 +239,6 @@ public class GuessingGameController {
         guessInput.clear();
         game.turnControl = 0;
         game.existingGuesses.clear();
+        startBtn.setDisable(false);
     }
 }

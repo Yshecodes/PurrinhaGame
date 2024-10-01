@@ -91,11 +91,14 @@ public class Game {
                 p.updateHand();
                 p.score++;
                 ctrl.revealPlayersThr(players);
+                ctrl.droppedASticks(p);
                 ctrl.showPopup();
                 winnerFound = true;
                 if (p.score == 3) {
                     ctrl.popLabel.setText(p.name + " WON!");
                     ctrl.showPopup();
+                    ctrl.updateGameLog(players);
+                    resetGame(players);
                     return;
                 }
                 break;
@@ -118,16 +121,6 @@ public class Game {
         return total;
     }
 
-    /* 
-    public String getGameState() {
-        StringBuilder state = new StringBuilder();
-        for (Player p : players) {
-        state.append(String.format("Player: %s, Hand: %s, Throw: %d, Guess: %d, Score: %d%n", 
-        p.name, p.hand, p.thr, p.guess, p.score));
-        }
-        return state.toString();
-    }*/
-
     public void nextRound() {
         ctrl.gameLog.clear();
         existingGuesses.clear();
@@ -140,7 +133,8 @@ public class Game {
         for (Player p : players) {
             p.resetHand();
         }
-        //Generating a new player
+        existingGuesses.clear();
+        //Generating a new starting order
         currentPlayerIndex = rd.nextInt(players.size());
     }
 }

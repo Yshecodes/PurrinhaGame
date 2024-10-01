@@ -15,7 +15,7 @@
       </font>
    </Label>
    <TextField fx:id="playerNameInput" promptText="Enter your name here!" />
-   <Button onAction="#startGame" text="Start Game" />
+   <Button fx:id="startBtn" onAction="#startGame" text="Start Game" />
    <HBox alignment="CENTER" spacing="10">
       <TextField fx:id="throwInput" promptText="Enter your throw" />
       <Button fx:id="thrBtn" onAction="#getThrInput" text="Submit Throw" />  
