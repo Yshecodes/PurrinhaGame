@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:controller="purrinha.GuessingGameController" stylesheets="@styles.css">
+   <VBox fx:id="languages">
+      <HBox fx:id="languageBox">
+      <Button fx:id="enBtn" styleClass="flag-button, en-flag" onAction="#setEn"/>
+      <Button fx:id="ptBtn" styleClass="flag-button, pt-flag" onAction="#setPt"/>
+      <Button fx:id="jaBtn" styleClass="flag-button, ja-flag" onAction="#setJa"/>
+      </HBox>
+   </VBox>
+   <Label fx:id="statusLabel" text="Welcome to the Guessing Game!"/>
+   <TextField fx:id="playerNameInput" promptText="Enter your name here!" />
+   <Button fx:id="startBtn" onAction="#startGame" text="Start Game" />
+   <HBox alignment="CENTER" spacing="10">
+      <TextField fx:id="throwInput" promptText="Enter your throw" />
+      <Button fx:id="thrBtn" onAction="#getThrInput" text="Submit Throw" />  
+      <TextField fx:id="guessInput" promptText="Enter your guess" />
+      <Button fx:id="guessBtn" onAction="#getGuessInput" text="Submit Guess" styleClass="guess-btn" />  
+   </HBox>
+   <VBox fx:id="popup" visible="false" spacing="10">
+      <Label fx:id="totalSticks" text="" />
+      <Label fx:id="popLabel" text="" />
+      <Button fx:id="continueBtn" text="Next round" onAction="#closePopup"/>
+   </VBox>
+   <HBox fx:id="playersNamesBox" alignment="CENTER" prefHeight="20.0" prefWidth="200.0" spacing="10">
+      <children>
+         <Label fx:id="player1" alignment="CENTER" contentDisplay="CENTER" prefWidth="200.0" text="" HBox.hgrow="ALWAYS"/>
+         <Label fx:id="player2" alignment="CENTER" contentDisplay="CENTER" prefWidth="200.0" text="" HBox.hgrow="ALWAYS"/>
+         <Label fx:id="player3" alignment="CENTER" contentDisplay="CENTER" prefWidth="200.0" text="" HBox.hgrow="ALWAYS"/>
+      </children>
+   </HBox>
+   <HBox alignment="CENTER" spacing="10">
+      <TextArea fx:id="player1Log" editable="false" wrapText="true" />
+      <TextArea fx:id="player2Log" editable="false" wrapText="true" />
+      <TextArea fx:id="player3Log" editable="false" wrapText="true" />
+   </HBox>
+   <TextArea fx:id="gameLog" editable="false" wrapText="true" />
+   <Label fx:id="resultDetails" text="" />
+   <Button fx:id="newGameBtn" onAction="#startNewGame" text="New Game" />
+</VBox>

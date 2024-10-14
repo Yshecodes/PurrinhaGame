@@ -1,0 +1,70 @@
+#popup {
+  -fx-alignment: center;
+}
+
+#totalSticks {
+  -fx-text-fill: darkblue;
+  -fx-font-size: 18;
+}
+
+#popLabel {
+  -fx-font-size: 20;
+  -fx-font-weight: bolder;
+}
+
+#statusLabel {
+  -fx-font-size: 20;
+}
+
+#playerNameInput {
+  -fx-alignment: center;
+}
+
+#player1,
+#player2,
+#player3 {
+  -fx-font-size: 18;
+}
+
+.text-field {
+  -fx-prompt-text-fill: gray;
+}
+.text-field:focused:empty {
+  -fx-prompt-text-fill: gray;
+}
+
+VBox {
+  -fx-padding: 10;
+  -fx-background-color: lightgreen;
+}
+
+.flag-button {
+  -fx-background-color: transparent;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+  -fx-background-size: contain;
+  -fx-min-width: 40px;
+  -fx-min-height: 30px;
+  -fx-max-width: 40px;
+  -fx-max-height: 30px;
+}
+
+.en-flag {
+  -fx-background-image: url("enFlagIcon.png");
+}
+
+.pt-flag {
+  -fx-background-image: url("ptFlagIcon.png");
+}
+
+.ja-flag {
+  -fx-background-image: url("jaFlagIcon.png");
+}
+
+.flag-button:hover {
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}
+
+.flag-button:pressed {
+  -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}
